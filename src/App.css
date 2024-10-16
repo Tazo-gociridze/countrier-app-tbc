@@ -293,6 +293,13 @@
     };  
 }
 
+.create-country-form{
+    p{
+        color: #ff0000;
+        font-weight: 700;
+    }
+}
+
 .delete-btn{
     background-color: #bb00008f;
     opacity: 1 !important;
