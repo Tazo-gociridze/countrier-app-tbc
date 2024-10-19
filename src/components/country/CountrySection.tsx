@@ -1,12 +1,12 @@
 import { FC} from "react";
-import CountryComponent from "./country-components/countrySection/CountryComponent";
+import CountryComponent, { countryStateType } from "./country-components/countrySection/CountryComponent";
 
 
-const CountrySection: FC = () => {
+const CountrySection: FC<countryStateType> = ({countriesState, switchLangDispatch}) => {
   return (
     <>
       <section>      
-        <CountryComponent/>
+        <CountryComponent countriesState={countriesState} switchLangDispatch={switchLangDispatch}/>
       </section>
     </>
   );

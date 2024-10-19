@@ -1,15 +1,22 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const navs = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Country", path: "/country" },
-  { name: "Contact", path: "/contact" },
+const Nav: FC<{ switchLang: string }> = ({ switchLang }) => {
+  const navs = switchLang === 'en'
+    ? [
+        { name: "Home", path: "/en" },
+        { name: "About", path: "/en/about" },
+        { name: "Country", path: "/en/country" },
+        { name: "Contact", path: "/en/contact" },
+      ]
+    : [
+        { name: "მთავარი", path: "/ge" },
+        { name: "ჩვენს შესახებ", path: "/ge/about" },
+        { name: "ქვეყანა", path: "/ge/country" },
+        { name: "კონტაქტი", path: "/ge/contact" },
 ];
 
-const Nav: FC = () => {
-  const location = useLocation(); // Получаем текущий маршрут
+  const location = useLocation();
 
   return (
     <div className="navbar">

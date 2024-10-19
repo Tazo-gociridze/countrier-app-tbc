@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC,} from "react";
 import { CountryData } from "../static/Interfaces";
 import { AiOutlineLike } from "react-icons/ai";
 import { CountryAction } from "../Reducer/countryReducer";
+
 
 
 interface CountryInfoProps {
@@ -16,6 +17,7 @@ const Characteristics: FC<CountryInfoProps> = ({
   index,
   dispatch,
 }) => {
+
 
   const handleLikeClick = () => {
     dispatch({ type: "INCREMENT_LIKE", payload: { index } });

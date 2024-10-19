@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NameState } from "./formLogit";
 import Input from "./form-components/Input";
+import { LanguageContext } from "../../../../App";
 
 function Form() {
+  const { switchLang } = useContext(LanguageContext); 
   const [name, setName] = useState<NameState>({
     firstName: "",
     lastName: "",
@@ -41,19 +43,10 @@ function Form() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const firstName = formData.get("firstName") as string;
-    const lastName = formData.get("lastName") as string;
-    const email = formData.get("email") as string;
-    const message = formData.get("message") as string;
-
     if (errors.firstName || errors.lastName || errors.email || errors.message) {
       console.log("Form contains errors");
       return;
     }
-
-    setName({ firstName, lastName, email, message });
-    console.log({ firstName, lastName, email, message });
 
     setName({ firstName: "", lastName: "", email: "", message: "" });
   };
@@ -63,7 +56,7 @@ function Form() {
       <div className="form__wrapper">
         {errors.firstName && <div className="error">{errors.firstName}</div>}
         <Input
-          placeholder="First-name"
+          placeholder={switchLang === 'en' ? "First-name" : 'სახელი'}
           type="text"
           name="firstName"
           value={name.firstName}
@@ -72,7 +65,7 @@ function Form() {
 
         {errors.lastName && <div className="error">{errors.lastName}</div>}
         <Input
-          placeholder="Last-name"
+          placeholder={switchLang === 'en' ? "Last-name" : 'გვარი'}
           type="text"
           name="lastName"
           value={name.lastName}
@@ -81,7 +74,7 @@ function Form() {
 
         {errors.email && <div className="error">{errors.email}</div>}
         <Input
-          placeholder="E-mail"
+          placeholder={switchLang === 'en' ? "E-mail" : 'ელ-ფოსტა'}
           type="email"
           name="email"
           value={name.email}
@@ -90,13 +83,13 @@ function Form() {
 
         {errors.message && <div className="error">{errors.message}</div>}
         <textarea
-          placeholder="Message"
+          placeholder={switchLang === 'en' ? "Message" : 'წერილი'}
           name="message"
           value={name.message}
           onChange={handleChange}
         />
 
-        <button type="submit">Send</button>
+        <button type="submit">{switchLang === 'en' ? 'Send' : 'გაგზავნა'}</button>
       </div>
     </form>
   );

@@ -1,8 +1,10 @@
-import { FC } from "react"
+import { FC, useContext } from "react"
+import { LanguageContext } from "../../../../App";
 
 const Title: FC = () => {
+  const { switchLang } = useContext(LanguageContext); 
   return (
-    <h1>ABOUT US</h1>
+    <h1>{switchLang === 'en' ? 'ABOUT US' : 'ჩვენს შესახებ'}</h1>
   )
 };
 

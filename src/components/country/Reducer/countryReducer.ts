@@ -1,6 +1,12 @@
 import { CountryData } from "../static/Interfaces";
+import { countryCharacteristics, countryCharacteristicsGeo } from "./state";
+
+export interface ChangeLanguagePayload {
+  switchLang: string;
+}
 
 export interface CountryState {
+  switchLang: string; 
   countries: CountryData[];
 }
 
@@ -12,8 +18,15 @@ export interface CountryAction {
     | "INCREMENT_LIKE"
     | "ADD_COUNTRY"
     | "DELETE_COUNTRY"
-    | "REVIVE_COUNTRY";
-  payload?: { index: number | string; countries?: CountryData[] } | CountryData;
+    | "REVIVE_COUNTRY"
+    | "CHANGE_LANGUAGE";
+  payload?:
+    | {
+        index: number | string;
+        countries?: CountryData[];
+        switchLang?: string;
+      }
+    | CountryData;
 }
 
 export const countryReducer = (
@@ -81,9 +94,7 @@ export const countryReducer = (
           countries: deletedCountries,
         };
       } else {
-        console.error(
-          "action.payload.index is undefine"
-        );
+        console.error("action.payload.index is undefine");
         return state;
       }
 
@@ -109,6 +120,14 @@ export const countryReducer = (
         return state;
       }
 
+      case "CHANGE_LANGUAGE":
+        return {
+          ...state, 
+          switchLang: (action.payload as ChangeLanguagePayload).switchLang,
+          countries: (action.payload as ChangeLanguagePayload).switchLang === 'en' 
+            ? [...countryCharacteristics]
+            : [...countryCharacteristicsGeo],
+        };
     default:
       return state;
   }
