@@ -1,8 +1,10 @@
-import { FC } from "react"
+import { FC, useContext } from "react"
 import { FaSortDown, FaSortUp } from "react-icons/fa";
 import { DispatchType } from "./CountryAddForm";
+import { LanguageContext } from "../../../../App";
 
 const SortBtns: FC<DispatchType> = ({dispatch}) => {
+  const { switchLang } = useContext(LanguageContext); 
     const handleSortUp = () => {
         dispatch({ type: "SORT_UP" });
       };
@@ -14,10 +16,10 @@ const SortBtns: FC<DispatchType> = ({dispatch}) => {
   return (
     <div>
         <button onClick={handleSortUp} className="sort-btn">
-          sort <FaSortUp />
+          {switchLang === 'en' ? 'sort' : 'სორტირება'} <FaSortUp />
         </button>
         <button onClick={handleSortDown} className="sort-btn">
-          sort <FaSortDown />
+        {switchLang === 'en' ? 'sort' : 'სორტირება'} <FaSortDown />
         </button>
     </div>
   )

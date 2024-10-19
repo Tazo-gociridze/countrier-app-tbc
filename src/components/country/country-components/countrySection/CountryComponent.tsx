@@ -1,37 +1,36 @@
-import { useReducer } from "react";
 import Wrapper from "../Wrapper";
-import {CountryState,countryReducer,} from "@components/country/Reducer/countryReducer";
-import { countryCharacteristics } from "@components/country/Reducer/state";
 import SortBtns from "./SortBtns";
 import CountryAddForm from "./CountryAddForm";
+import { Dispatch, FC } from "react";
+import { CountryAction, CountryState } from "@components/country/Reducer/countryReducer";
 
-const initialState: CountryState = {
-  countries: [...countryCharacteristics],
-};
+export interface countryStateType{
+  countriesState: CountryState; 
+  switchLangDispatch: Dispatch<CountryAction>; 
+}
 
-const CountryComponent = () => {
-  const [state, dispatch] = useReducer(countryReducer, initialState);
+const CountryComponent: FC<countryStateType> = ({countriesState, switchLangDispatch}) => {
 
   const handleDeleteCountry = (index: number) => {
-    dispatch({ type: "DELETE_COUNTRY", payload: { index } });
+    switchLangDispatch({ type: "DELETE_COUNTRY", payload: { index } });
   };
 
   const handleReviveCountry = (index: number) => {
-    dispatch({ type: "REVIVE_COUNTRY", payload: { index } });
+    switchLangDispatch({ type: "REVIVE_COUNTRY", payload: { index } });
   };
 
   return (
     <>
-      <SortBtns dispatch={dispatch} />
+      <SortBtns dispatch={switchLangDispatch} />
       <div className="country__section">
-        <CountryAddForm dispatch={dispatch} />
-        {state.countries.map((obj, index) => (
+        <CountryAddForm dispatch={switchLangDispatch} />
+        {countriesState.countries.map((obj, index) => (
           <Wrapper
             key={obj.id}
             flagType={obj.flagName}
             countryIndex={index}
-            countryState={state.countries}
-            dispatch={dispatch}
+            countriesState={countriesState.countries}
+            dispatch={switchLangDispatch}
             el={obj}
             onDelete={() => handleDeleteCountry(index)}
             onRevive={() => handleReviveCountry(index)}

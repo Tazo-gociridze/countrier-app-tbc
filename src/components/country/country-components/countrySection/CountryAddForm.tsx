@@ -1,12 +1,15 @@
 import { CountryAction } from "@components/country/Reducer/countryReducer";
 import { CountryData } from "@components/country/static/Interfaces";
-import { Dispatch, FC, useState } from "react";
+import { Dispatch, FC, useContext, useState } from "react";
+import { LanguageContext } from "../../../../App";
 
 export interface DispatchType {
   dispatch: Dispatch<CountryAction>;
 }
 
 const CountryAddForm: FC<DispatchType> = ({ dispatch }) => {
+  const { switchLang } = useContext(LanguageContext); 
+
   const [newCountryName, setNewCountryName] = useState("");
   const [newCountryCapital, setNewCountryCapital] = useState("");
   const [newCountryPopulation, setNewCountryPopulation] = useState("");
@@ -14,6 +17,7 @@ const CountryAddForm: FC<DispatchType> = ({ dispatch }) => {
   const [nameError, setNameError] = useState("");
   const [capitalError, setCapitalError] = useState("");
   const [populationError, setPopulationError] = useState("");
+  
   const handleAddCountry = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newCountry: CountryData = {
@@ -66,23 +70,23 @@ const CountryAddForm: FC<DispatchType> = ({ dispatch }) => {
         type="text"
         value={newCountryName}
         onChange={countryNameTargetHandler}
-        placeholder="country name"
+        placeholder={switchLang === 'en' ? "country name" : 'ქვეყნის სახელი'}
       />
       {capitalError && <p>min limit of symbols - 8</p>}
       <input
         type="text"
         value={newCountryCapital}
         onChange={countryCapitalTargetHandler}
-        placeholder="capital"
+        placeholder={switchLang === 'en' ? "capital" : 'დედაქალაქი'}
       />
       {populationError && <p>max limit of symbols - 8</p>}
       <input
         type="number"
         value={newCountryPopulation}
         onChange={countryPopulationTargetHandler}
-        placeholder="population"
+        placeholder={switchLang === 'en' ? "population" : 'მოსახლეობა'}
       />
-      <button>add country</button>
+      <button>{switchLang === 'en' ? 'add country' : 'ქვეყნის დამატება'}</button>
     </form>
   );
 };

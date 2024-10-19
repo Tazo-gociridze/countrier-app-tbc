@@ -6,23 +6,41 @@ import About from "./pages/About";
 import Country from "./pages/Country";
 import Contact from "./pages/Contact";
 import SingleCountry from "@components/country/country-components/SingleCountry";
+import { FC, useState, createContext, useReducer } from "react";
+import { CountryState, countryReducer } from "@components/country/Reducer/countryReducer";
+
+import { countryCharacteristics } from "@components/country/Reducer/state";
+
+export const LanguageContext = createContext({ 
+  switchLang: 'en', 
+  setSwitchLang: undefined as unknown as (newLang: string) => void,
+  dispatch: undefined as unknown as React.Dispatch<any>,
+}); 
 
 
-function App() {
+const App: FC = () => {
+  const [switchLang, setSwitchLang] = useState('en');
+  const [state, dispatch] = useReducer(countryReducer, { 
+    switchLang: switchLang, 
+    countries: [...countryCharacteristics] 
+  } as CountryState); 
+
+  console.log(state)
   return (
     <BrowserRouter>
-       <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" index element={<Home/>}></Route>
-              <Route path="/about" element={<About/>}></Route>
-              <Route path="/country" element={<Country/>}></Route>
-              <Route path="/country/:id" element={<SingleCountry/>}></Route>
-              <Route path="/contact" element={<Contact/>}></Route>
-            </Route>
-       </Routes>
+      <LanguageContext.Provider  value={{switchLang, setSwitchLang, dispatch}}> 
+        <Routes> 
+          <Route path="/" element={<Layout />}>
+            <Route path="/:lang" index element={<Home/>}></Route>
+            <Route path="/:lang/about" element={<About/>}></Route>
+            <Route path="/:lang/country" element={<Country countriesState={state} switchLangDispatch={dispatch}/>}></Route>
+            <Route path="/:lang/country/:id" element={<SingleCountry countriesState={state}/>}></Route>
+            <Route path="/:lang/contact" element={<Contact/>}></Route>
+          </Route>
+        </Routes> 
+      </LanguageContext.Provider> 
     </BrowserRouter>
-       
   );
-}
+};
 
 export default App;

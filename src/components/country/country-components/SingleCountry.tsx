@@ -1,17 +1,20 @@
-import  { FC } from "react";
 import { useParams } from "react-router-dom";
 import { CountryData } from "../static/Interfaces";
-import { countryCharacteristics } from "../Reducer/state";
+import { CountryState } from "../Reducer/countryReducer";
 
-const SingleCountry: FC = () => {
-  const { id } = useParams<{ id: string }>();
 
-  const countryInfo: CountryData | undefined = countryCharacteristics.find(
+const SingleCountry = ({ countriesState }: { countriesState: CountryState }) => {
+  const { id } = useParams(); 
+
+  const countryInfo: CountryData | undefined = countriesState.countries.find(
     (country) => country.id.toString() === id
   );
 
+
+  console.log(countryInfo)
+
   if (!countryInfo) {
-    return <p>Страна не найдена</p>;
+    return <p>Page in not found</p>;
   }
 
   return (
